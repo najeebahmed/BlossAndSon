@@ -12,6 +12,7 @@ HEADERS = {
     }
 
 def GetRequest(uri, array_name):
+    """The point of this function is..."""
     pagesize = 1
     results = []
     offset = 0
