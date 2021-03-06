@@ -3,29 +3,25 @@ import getauth
 import http.client
 import json
 
-accessToken = ''
-
 conn = http.client.HTTPSConnection("api.mindbodyonline.com")
 
 HEADERS = {
     'Api-Key': "a0e9d29c240c45af8873fbd407844e4c",
     'SiteId': "-99",
-    'Authorization': accessToken
+    'Authorization': getauth.GetAccessToken()
     }
 
 def GetRequest(uri, array_name):
-    global accessToken
-    if accessToken == '':
-        accessToken = getauth.GetAccessToken()
-
+    """The point of this function is..."""
     pagesize = 1
     results = []
     offset = 0
-    #while pagesize > 0:
-    conn.request("GET", f'{uri}?Limit=200&offset={offset}', headers=HEADERS)
-    offset = offset + 200
-    res = conn.getresponse()
-    data = json.loads(res.read())
+    while pagesize > 0:
+        conn.request("GET", f'{uri}?Limit=200&offset={offset}', headers=HEADERS)
+        offset = offset + 200
+        res = conn.getresponse()
+        data = json.loads(res.read().decode('utf-8'))
+
     if "PaginationResponse" in data:
         pagesize = data["PaginationResponse"]["PageSize"]
     else:
@@ -35,6 +31,3 @@ def GetRequest(uri, array_name):
         results.extend(data[array_name])
 
     return results
-
-clients = GetRequest("/public/v6/client/clients", "Clients")
-print(clients)
