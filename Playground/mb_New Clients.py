@@ -4,6 +4,9 @@ import math
 import datetime
 import dateutil.parser
 import pandas as pd
+import getauth
+
+accessToken = getauth.GetAccessToken()
 
 MaxLimit = 200
 
@@ -12,13 +15,18 @@ conn = http.client.HTTPSConnection("api.mindbodyonline.com")
 headers = {
     'Api-Key': "a0e9d29c240c45af8873fbd407844e4c",
     'SiteId': "-99",
-    'Authorization': "fd3088837630414eb0e855739ceaf7bdc385ce092a004c26a699850e8b8c1acc"
+    'Authorization': accessToken
     }
 getclients = "/public/v6/client/clients?limit=" + str(MaxLimit)
 conn.request("GET", getclients, headers=headers)
 
 res = conn.getresponse()
 data = res.read()
+
+# accessDeniedString = '{"Error":{"Message":"Invalid user token","Code":"DeniedAccess"}'
+
+# if accessDeniedString in str(data):
+#     print ("Found!")
 
 jsondata = json.loads(data.decode("utf-8"))
 
