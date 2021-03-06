@@ -12,6 +12,8 @@ HEADERS = {
     'Authorization': getauth.GetAccessToken()
     }
 
+#TODO: implement onepageonly parameter functionality
+#TODO: investigate and resolve ? in conn.request when multiple parameters passed
 def GetRequest(uri, array_name, onepageonly=False):
     """The point of this function is..."""
     pages_remaining = 9999
