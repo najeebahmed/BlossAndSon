@@ -1,4 +1,4 @@
 # take craps here
-import GetAuth
+import getauth
 
-print(GetAuth.GetAccessToken.__doc__)
+print(getauth.GetAccessToken.__doc__)
