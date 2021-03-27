@@ -12,15 +12,19 @@ HEADERS = {
     'Authorization': getauth.GetAccessToken()
     }
 
-#TODO: implement onepageonly parameter functionality
-#TODO: investigate and resolve ? in conn.request when multiple parameters passed
 def GetRequest(uri, array_name, onepageonly=False):
     """The point of this function is..."""
     pages_remaining = 9999
+    if onepageonly:
+        pages_remaining = 1
     results = []
     offset = 0
+    if '?' in uri:
+        bridge = '&'
+    else:
+        bridge = '?'
     while pages_remaining > 0:
-        conn.request("GET", f'{uri}?Limit=200&offset={offset}', headers=HEADERS)
+        conn.request("GET", f'{uri}{bridge}Limit=200&offset={offset}', headers=HEADERS)
         offset += 200
         res = conn.getresponse()
         data = json.loads(res.read().decode('utf-8'))
